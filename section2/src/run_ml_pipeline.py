@@ -3,7 +3,7 @@ This file contains code that will kick off training and testing processes
 """
 import os
 import json
-
+from sklearn.model_selection import train_test_split
 from experiments.UNetExperiment import UNetExperiment
 from data_prep.HippocampusDatasetLoader import LoadHippocampusData
 
@@ -13,12 +13,12 @@ class Config:
     """
     def __init__(self):
         self.name = "Basic_unet"
-        self.root_dir = r"YOUR DIRECTORY HERE"
+        self.root_dir = None
         self.n_epochs = 10
         self.learning_rate = 0.0002
         self.batch_size = 8
         self.patch_size = 64
-        self.test_results_dir = "RESULTS GO HERE"
+        self.test_results_dir = None
 
 if __name__ == "__main__":
     # Get configuration
@@ -26,7 +26,8 @@ if __name__ == "__main__":
     # TASK: Fill in parameters of the Config class and specify directory where the data is stored and 
     # directory where results will go
     c = Config()
-
+    c.root_dir = r"/Users/brandonhager/nd320-c3-3d-imaging-starter/data"
+    c.test_results_dir = r"/Users/brandonhager/nd320-c3-3d-imaging-starter/results/"
     # Load data
     print("Loading data...")
 
@@ -38,7 +39,7 @@ if __name__ == "__main__":
     # In a real world scenario you would probably do multiple splits for 
     # multi-fold training to improve your model quality
 
-    keys = range(len(data))
+    keys = np.random.permutation(range(len(data)))
 
     # Here, random permutation of keys array would be useful in case if we do something like 
     # a k-fold training and combining the results. 
@@ -49,7 +50,17 @@ if __name__ == "__main__":
     # the array with indices of training volumes to be used for training, validation 
     # and testing respectively.
     # <YOUR CODE GOES HERE>
+    train_data, test_data = train_test_split(data, test_size=0.2, random_state=42)
+    train_data, val_data = train_test_split(train_data, test_size=0.2, random_state=42)
 
+    # Get indices of train, val, and test data
+    train_indices = range(len(train_data))
+    val_indices = range(len(val_data))
+    test_indices = range(len(test_data))
+    
+    # Create dictionary to hold split data indices
+    split = {"train": train_indices, "val": val_indices, "test": test_indices}
+    
     # Set up and run experiment
     
     # TASK: Class UNetExperiment has missing pieces. Go to the file and fill them in

@@ -4,6 +4,8 @@ the experiment lifecycle
 """
 import os
 import time
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import numpy as np
 import torch
@@ -18,6 +20,7 @@ from utils.utils import log_to_tensorboard
 from utils.volume_stats import Dice3d, Jaccard3d
 from networks.RecursiveUNet import UNet
 from inference.UNetInferenceAgent import UNetInferenceAgent
+
 
 class UNetExperiment:
     """
@@ -97,8 +100,8 @@ class UNetExperiment:
             # shape [BATCH_SIZE, 1, PATCH_SIZE, PATCH_SIZE] into variables data and target. 
             # Feed data to the model and feed target to the loss function
             # 
-            # data = <YOUR CODE HERE>
-            # target = <YOUR CODE HERE>
+            data = torch.tensor(batch["image"]).to(self.device)
+            target = torch.tensor(batch["seg"]).to(self.device)
 
             prediction = self.model(data)
 
@@ -109,7 +112,9 @@ class UNetExperiment:
             loss = self.loss_function(prediction, target[:, 0, :, :])
 
             # TASK: What does each dimension of variable prediction represent?
-            # ANSWER:
+            # ANSWER: The dimensions of prediction tensor are [BATCH_SIZE, NUM_CLASSES, PATCH_SIZE, PATCH_SIZE].
+            # The first dimension represents the batch size, the second dimension represents the number of classes
+            # (in this case 3), and the last two dimensions represent the patch size.
 
             loss.backward()
             self.optimizer.step()
@@ -154,6 +159,16 @@ class UNetExperiment:
                 
                 # TASK: Write validation code that will compute loss on a validation sample
                 # <YOUR CODE HERE>
+                data, target = batch['image'], batch['seg']
+                data, target = data.to(self.device), target.to(self.device)
+                prediction = self.model(data)
+
+                # We are also getting softmax'd version of prediction to output a probability map
+                # so that we can see how the model converges to the solution
+                prediction_softmax = F.softmax(prediction, dim=1)
+
+                loss = self.loss_function(prediction, target[:, 0, :, :])
+
 
                 print(f"Batch {i}. Data shape {data.shape} Loss {loss}")
 
@@ -218,6 +233,20 @@ class UNetExperiment:
         out_dict["volume_stats"] = []
         dc_list = []
         jc_list = []
+        sens_list = []
+        spec_list = []
+        dps_list = []
+        dps_dice_list = []
+
+        def Dice3d(pred, gt, epsilon=1e-6):
+            dice = (2 * np.sum(pred[gt==1])) / (np.sum(pred) + np.sum(gt) + epsilon)
+            return dice
+
+        def Jaccard3d(pred, gt, epsilon=1e-6):
+            intersection = np.sum(pred[gt==1])
+            union = np.sum(pred) + np.sum(gt) - intersection
+            jaccard = (intersection + epsilon) / (union + epsilon)
+            return jaccard
 
         # for every in test set
         for i, x in enumerate(self.test_data):
@@ -226,36 +255,51 @@ class UNetExperiment:
             # We compute and report Dice and Jaccard similarity coefficients which 
             # assess how close our volumes are to each other
 
-            # TASK: Dice3D and Jaccard3D functions are not implemented. 
-            #  Complete the implementation as we discussed
-            # in one of the course lessons, you can look up definition of Jaccard index 
-            # on Wikipedia. If you completed it
-            # correctly (and if you picked your train/val/test split right ;)),
-            # your average Jaccard on your test set should be around 0.80
-
+            # Compute metrics
             dc = Dice3d(pred_label, x["seg"])
             jc = Jaccard3d(pred_label, x["seg"])
+            sens = Sensitivity3d(pred_label, x["seg"])
+            spec = Specificity3d(pred_label, x["seg"])
+            dps = DicePerSlice(pred_label, x["seg"])
+            dps_dice = [dp[1] for dp in dps] # Extract Dice scores from each (slice index, Dice) tuple
+            
+            # Append metrics to lists
             dc_list.append(dc)
             jc_list.append(jc)
+            sens_list.append(sens)
+            spec_list.append(spec)
+            dps_list.append(dps)
+            dps_dice_list.extend(dps_dice)
 
-            # STAND-OUT SUGGESTION: By way of exercise, consider also outputting:
-            # * Sensitivity and specificity (and explain semantic meaning in terms of 
-            #   under/over segmenting)
-            # * Dice-per-slice and render combined slices with lowest and highest DpS
-            # * Dice per class (anterior/posterior)
-
+            # Append volume stats to out_dict
             out_dict["volume_stats"].append({
                 "filename": x['filename'],
                 "dice": dc,
-                "jaccard": jc
-                })
+                "jaccard": jc,
+                "sensitivity": sens,
+                "specificity": spec,
+                "dps": dps,
+                "dps_dice": dps_dice,
+            })
+            
             print(f"{x['filename']} Dice {dc:.4f}. {100*(i+1)/len(self.test_data):.2f}% complete")
 
+        # Compute overall metrics
         out_dict["overall"] = {
             "mean_dice": np.mean(dc_list),
-            "mean_jaccard": np.mean(jc_list)}
+            "mean_jaccard": np.mean(jc_list),
+            "mean_sensitivity": np.mean(sens_list),
+            "mean_specificity": np.mean(spec_list),
+            "mean_dps_dice": np.mean(dps_dice_list),
+        }
 
-        print("\nTesting complete.")
+        # Print overall metrics
+        print(f"\nTesting complete. Mean Dice: {out_dict['overall']['mean_dice']:.4f}")
+        print(f"Mean Jaccard: {out_dict['overall']['mean_jaccard']:.4f}")
+        print(f"Mean Sensitivity: {out_dict['overall']['mean_sensitivity']:.4f}")
+        print(f"Mean Specificity: {out_dict['overall']['mean_specificity']:.4f}")
+        print(f"Mean Dice-per-slice: {out_dict['overall']['mean_dps_dice']:.4f}")
+    
         return out_dict
 
     def run(self):

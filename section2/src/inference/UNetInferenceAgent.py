@@ -61,4 +61,40 @@ class UNetInferenceAgent:
         # with the label in 3D Slicer.
         # <YOUR CODE HERE>
 
-        return # 
+        # get the number of slices
+        num_slices = volume.shape[0]
+
+        # create an empty numpy array of shape [num_slices, 1, patch_size, patch_size]
+        batch = np.empty((num_slices, 1, self.patch_size, self.patch_size), dtype=np.float32)
+
+        # loop over the slices in the volume
+        for i in range(num_slices):
+            # crop the patch of size [patch_size, patch_size] from the current slice
+            patch = volume[i, :, :self.patch_size, :self.patch_size]
+
+            # resize the patch to [1, patch_size, patch_size]
+            patch = med_reshape(patch, [1, self.patch_size, self.patch_size])
+
+            # convert numpy array to tensor
+            patch = torch.from_numpy(patch).float()
+
+            # push tensor to device
+            patch = patch.to(self.device)
+
+            # append tensor to batch
+            batch[i] = patch
+
+        # convert batch to tensor
+        batch = torch.from_numpy(batch).float()
+
+        # run inference on the batch
+        predictions = self.model(batch)
+
+        # convert tensor to numpy array
+        predictions = predictions.cpu().detach().numpy()
+
+        # take the argmax over the channel dimension
+        predictions = np.argmax(predictions, axis=1)
+
+        # return predictions
+        return predictions

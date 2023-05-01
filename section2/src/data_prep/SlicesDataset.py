@@ -48,6 +48,27 @@ class SlicesDataset(Dataset):
         # Hint2: You can use None notation like so: arr[None, :] to add size-1 
         # dimension to a Numpy array
         # <YOUR CODE GOES HERE>
+        
+        # Get image and label volumes
+        i, j = slc
+        img_vol = self.data[i]["image"]
+        label_vol = self.data[i]["label"]
+
+        # Get the image slice and corresponding label slice
+        img_slice = img_vol[j, :, :]
+        label_slice = label_vol[j, :, :]
+
+        # Convert to Torch Tensors
+        img_tensor = torch.from_numpy(img_slice).unsqueeze(0)
+        label_tensor = torch.from_numpy(label_slice).unsqueeze(0)
+
+        # Resize the tensors to patch_size x patch_size
+        img_tensor = torch.nn.functional.interpolate(img_tensor, size=self.patch_size)
+        label_tensor = torch.nn.functional.interpolate(label_tensor, size=self.patch_size)
+
+        # Add image and label tensors to sample dictionary
+        sample["image"] = img_tensor
+        sample["seg"] = label_tensor
 
         return sample
 
