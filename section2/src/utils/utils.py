@@ -82,20 +82,23 @@ def save_numpy_as_image(arr, path):
 
 def med_reshape(image, new_shape):
     """
-    This function reshapes 3D data to new dimension padding with zeros
+    This function reshapes 3D data to new dimensions, padding with zeros
     and leaving the content in the top-left corner
 
     Arguments:
-        image {array} -- 3D array of pixel data
+        image {np.array} -- 3D array of pixel data
         new_shape {3-tuple} -- expected output shape
 
     Returns:
-        3D array of desired shape, padded with zeroes
+        np.array: 3D array of desired shape, padded with zeroes
     """
 
     reshaped_image = np.zeros(new_shape)
 
-    # TASK: write your original image into the reshaped image
-    reshaped_image[:image.shape[0], :image.shape[1], :image.shape[2]] = image
+    # Calculate the minimum dimensions between the input image and new_shape
+    min_dims = tuple(min(dim_image, dim_new_shape) for dim_image, dim_new_shape in zip(image.shape, new_shape))
+
+    # Copy the values from the input image to the reshaped_image within the minimum dimensions
+    reshaped_image[:min_dims[0], :min_dims[1], :min_dims[2]] = image[:min_dims[0], :min_dims[1], :min_dims[2]]
 
     return reshaped_image
