@@ -1,5 +1,6 @@
 name: medai
 channels:
+  - pytorch-nightly
   - defaults
 dependencies:
   - _libgcc_mutex=0.1=main
@@ -85,7 +86,9 @@ dependencies:
   - pyrsistent=0.15.6=py37h7b6447c_0
   - python=3.7.5=h0371630_0
   - python-dateutil=2.8.1=py_0
-  - pytorch=1.3.1=cuda100py37h53c1284_0
+  - pytorch-nightly::pytorch
+  - torchvision
+  - torchaudio
   - pyzmq=18.1.0=py37he6710b0_0
   - qt=5.9.7=h5867ecd_1
   - qtconsole=4.6.0=py_0

@@ -31,7 +31,11 @@ def LoadHippocampusData(root_dir, y_shape, z_shape):
 
     out = []
     for f in images:
-
+        # Check if the corresponding label file exists
+        label_file_path = os.path.join(label_dir, f)
+        if not os.path.exists(label_file_path):
+            print(f"Warning: Label file for {f} not found. Skipping.")
+            continue
         # We would benefit from mmap load method here if dataset doesn't fit into memory
         # Images are loaded here using MedPy's load method. We will ignore header 
         # since we will not use it
@@ -47,7 +51,6 @@ def LoadHippocampusData(root_dir, y_shape, z_shape):
         # of the input image.
         # Note that since we feed individual slices to the CNN, we only need to 
         # extend 2 dimensions out of 3. We choose to extend coronal and sagittal here
-
         # TASK: med_reshape function is not complete. Go and fix it!
         image = med_reshape(image, new_shape=(image.shape[0], y_shape, z_shape))
         label = med_reshape(label, new_shape=(label.shape[0], y_shape, z_shape)).astype(int)

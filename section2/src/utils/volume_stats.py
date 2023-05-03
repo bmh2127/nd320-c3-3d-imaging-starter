@@ -25,7 +25,15 @@ def Dice3d(a, b):
     # TASK: Write implementation of Dice3D. If you completed exercises in the lessons
     # you should already have it.
     # <YOUR CODE HERE>
-    pass
+    a[np.where(a>0)] = 1
+    b[np.where(b>0)] = 1
+    
+    # 2 * common_elements / (size_a + size_b)
+    
+    common_elements = np.logical_and(a, b).sum()
+    dice_score = 2 * common_elements / (np.sum(a>0) + np.sum(b>0))
+
+    return dice_score
 
 def Jaccard3d(a, b):
     """
@@ -49,5 +57,54 @@ def Jaccard3d(a, b):
     # TASK: Write implementation of Jaccard similarity coefficient. Please do not use 
     # the Dice3D function from above to do the computation ;)
     # <YOUR CODE GOES HERE>
+    a[np.where(a>0)] = 1
+    b[np.where(b>0)] = 1
 
-    return #
+    common_elements = np.logical_and(a, b).sum()
+    jaccard_score = common_elements / (np.sum(a>0) + np.sum(b>0) - common_elements)
+    return jaccard_score
+
+def Sensitivity3d(a, b):
+    if len(a.shape) != 3 or len(b.shape) != 3:
+        raise Exception(f"Expecting 3 dimensional inputs, got {a.shape} and {b.shape}")
+
+    if a.shape != b.shape:
+        raise Exception(f"Expecting inputs of the same shape, got {a.shape} and {b.shape}")
+        
+    a[np.where(a>0)] = 1
+    b[np.where(b>0)] = 1
+        
+    TP = np.sum(a*b)
+    FN = np.sum(a * (1-b))
+    sensitivity = (TP / (TP+FN))
+        
+    return sensitivity
+
+def Specificity3d(a, b):
+    """
+    Computes the specificity (true negative rate) for two 3-dimensional volumes
+    Volumes are expected to be of the same size. We are expecting binary masks -
+    0's are treated as background and anything else is counted as data
+
+    Arguments:
+        a {Numpy array} -- 3D array with predicted segmentation
+        b {Numpy array} -- 3D array with ground truth segmentation
+
+    Returns:
+        float
+    """
+    if len(a.shape) != 3 or len(b.shape) != 3:
+        raise Exception(f"Expecting 3 dimensional inputs, got {a.shape} and {b.shape}")
+
+    if a.shape != b.shape:
+        raise Exception(f"Expecting inputs of the same shape, got {a.shape} and {b.shape}")
+        
+    a[np.where(a>0)] = 1
+    b[np.where(b>0)] = 1
+        
+    TN = np.sum((1-a) * (1-b))
+    FP = np.sum((1-a) * b)
+    specificity = (TN / (TN+FP))
+        
+    return specificity
+

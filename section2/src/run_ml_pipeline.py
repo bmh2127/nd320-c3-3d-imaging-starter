@@ -3,6 +3,7 @@ This file contains code that will kick off training and testing processes
 """
 import os
 import json
+import numpy as np
 from sklearn.model_selection import train_test_split
 from experiments.UNetExperiment import UNetExperiment
 from data_prep.HippocampusDatasetLoader import LoadHippocampusData
@@ -26,7 +27,7 @@ if __name__ == "__main__":
     # TASK: Fill in parameters of the Config class and specify directory where the data is stored and 
     # directory where results will go
     c = Config()
-    c.root_dir = r"/Users/brandonhager/nd320-c3-3d-imaging-starter/data"
+    c.root_dir = r"/Users/brandonhager/nd320-c3-3d-imaging-starter/data/TrainingSet/"
     c.test_results_dir = r"/Users/brandonhager/nd320-c3-3d-imaging-starter/results/"
     # Load data
     print("Loading data...")
@@ -50,16 +51,13 @@ if __name__ == "__main__":
     # the array with indices of training volumes to be used for training, validation 
     # and testing respectively.
     # <YOUR CODE GOES HERE>
-    train_data, test_data = train_test_split(data, test_size=0.2, random_state=42)
-    train_data, val_data = train_test_split(train_data, test_size=0.2, random_state=42)
 
-    # Get indices of train, val, and test data
-    train_indices = range(len(train_data))
-    val_indices = range(len(val_data))
-    test_indices = range(len(test_data))
+    shuffled_keys = np.random.RandomState(seed=1).permutation(keys)
     
-    # Create dictionary to hold split data indices
-    split = {"train": train_indices, "val": val_indices, "test": test_indices}
+    split['train'] = shuffled_keys[:int(0.7*len(shuffled_keys))]
+    split['val'] = shuffled_keys[int(0.7*len(shuffled_keys)):int(0.9*len(shuffled_keys))]
+    split['test'] = shuffled_keys[int(0.9*len(shuffled_keys)):]
+
     
     # Set up and run experiment
     
@@ -68,7 +66,7 @@ if __name__ == "__main__":
 
     # You could free up memory by deleting the dataset
     # as it has been copied into loaders
-    # del dataset 
+    del data
 
     # run training
     exp.run()

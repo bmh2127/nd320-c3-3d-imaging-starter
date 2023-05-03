@@ -1,6 +1,14 @@
 """
 Contains class that runs inferencing
 """
+import sys
+import os
+
+# Get the parent directory of the current file
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+# Append the parent directory to the Python import path
+sys.path.append(parent_dir)
+
 import torch
 import numpy as np
 
@@ -61,40 +69,12 @@ class UNetInferenceAgent:
         # with the label in 3D Slicer.
         # <YOUR CODE HERE>
 
-        # get the number of slices
-        num_slices = volume.shape[0]
+        img_ = med_reshape(volume, new_shape=(volume.shape[0], self.patch_size, self.patch_size))
+        for i in range(img_.shape[0]):
+            image = torch.from_numpy(img_[i] / np.max(img_[i])).unsqueeze(0).unsqueeze(0)
+            output = self.model(image.to(self.device, dtype=torch.float))
+            output = np.squeeze(output.cpu().detach())
+ 
+            slices.append(torch.argmax(output, dim=0).numpy())
 
-        # create an empty numpy array of shape [num_slices, 1, patch_size, patch_size]
-        batch = np.empty((num_slices, 1, self.patch_size, self.patch_size), dtype=np.float32)
-
-        # loop over the slices in the volume
-        for i in range(num_slices):
-            # crop the patch of size [patch_size, patch_size] from the current slice
-            patch = volume[i, :, :self.patch_size, :self.patch_size]
-
-            # resize the patch to [1, patch_size, patch_size]
-            patch = med_reshape(patch, [1, self.patch_size, self.patch_size])
-
-            # convert numpy array to tensor
-            patch = torch.from_numpy(patch).float()
-
-            # push tensor to device
-            patch = patch.to(self.device)
-
-            # append tensor to batch
-            batch[i] = patch
-
-        # convert batch to tensor
-        batch = torch.from_numpy(batch).float()
-
-        # run inference on the batch
-        predictions = self.model(batch)
-
-        # convert tensor to numpy array
-        predictions = predictions.cpu().detach().numpy()
-
-        # take the argmax over the channel dimension
-        predictions = np.argmax(predictions, axis=1)
-
-        # return predictions
-        return predictions
+        return np.asarray(slices)

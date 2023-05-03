@@ -16,8 +16,8 @@ from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
 
 from data_prep.SlicesDataset import SlicesDataset
-from utils.utils import log_to_tensorboard
-from utils.volume_stats import Dice3d, Jaccard3d
+from utils.utils import log_to_tensorboard, save_numpy_as_image
+from utils.volume_stats import Dice3d, Jaccard3d, Sensitivity3d, Specificity3d
 from networks.RecursiveUNet import UNet
 from inference.UNetInferenceAgent import UNetInferenceAgent
 
@@ -58,10 +58,10 @@ class UNetExperiment:
         # we will access volumes directly for testing
         self.test_data = dataset[split["test"]]
 
-        # Do we have CUDA available?
-        if not torch.cuda.is_available():
-            print("WARNING: No CUDA device is found. This may take significantly longer!")
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        # Do we have mps available?
+        if not torch.backends.mps.is_available():
+            print("WARNING: No MPS device is found. This may take significantly longer!")
+        self.device = torch.device("mps" if torch.cuda.is_available() else "cpu")
 
         # Configure our model and other training implements
         # We will use a recursive UNet model from German Cancer Research Center, 
@@ -83,6 +83,7 @@ class UNetExperiment:
         # Set up Tensorboard. By default it saves data into runs folder. You need to launch
         self.tensorboard_train_writer = SummaryWriter(comment="_train")
         self.tensorboard_val_writer = SummaryWriter(comment="_val")
+        self.tensorboard_test_writer = SummaryWriter(comment="_test")
 
     def train(self):
         """
@@ -100,8 +101,8 @@ class UNetExperiment:
             # shape [BATCH_SIZE, 1, PATCH_SIZE, PATCH_SIZE] into variables data and target. 
             # Feed data to the model and feed target to the loss function
             # 
-            data = torch.tensor(batch["image"]).to(self.device)
-            target = torch.tensor(batch["seg"]).to(self.device)
+            data = batch['image'].to(self.device, dtype=torch.float)
+            target = batch['seg'].to(self.device)
 
             prediction = self.model(data)
 
@@ -159,13 +160,12 @@ class UNetExperiment:
                 
                 # TASK: Write validation code that will compute loss on a validation sample
                 # <YOUR CODE HERE>
-                data, target = batch['image'], batch['seg']
-                data, target = data.to(self.device), target.to(self.device)
+                data = batch['image'].to(self.device, dtype=torch.float)
+                target = batch['seg'].to(self.device)
                 prediction = self.model(data)
 
                 # We are also getting softmax'd version of prediction to output a probability map
                 # so that we can see how the model converges to the solution
-                prediction_softmax = F.softmax(prediction, dim=1)
 
                 loss = self.loss_function(prediction, target[:, 0, :, :])
 
@@ -174,6 +174,7 @@ class UNetExperiment:
 
                 # We report loss that is accumulated across all of validation set
                 loss_list.append(loss.item())
+                prediction_softmax = F.softmax(prediction, dim=1)
 
         self.scheduler.step(np.mean(loss_list))
 
@@ -238,38 +239,24 @@ class UNetExperiment:
         dps_list = []
         dps_dice_list = []
 
-        def Dice3d(pred, gt, epsilon=1e-6):
-            dice = (2 * np.sum(pred[gt==1])) / (np.sum(pred) + np.sum(gt) + epsilon)
-            return dice
-
-        def Jaccard3d(pred, gt, epsilon=1e-6):
-            intersection = np.sum(pred[gt==1])
-            union = np.sum(pred) + np.sum(gt) - intersection
-            jaccard = (intersection + epsilon) / (union + epsilon)
-            return jaccard
-
         # for every in test set
         for i, x in enumerate(self.test_data):
             pred_label = inference_agent.single_volume_inference(x["image"])
-
+            
             # We compute and report Dice and Jaccard similarity coefficients which 
             # assess how close our volumes are to each other
 
             # Compute metrics
-            dc = Dice3d(pred_label, x["seg"])
-            jc = Jaccard3d(pred_label, x["seg"])
-            sens = Sensitivity3d(pred_label, x["seg"])
-            spec = Specificity3d(pred_label, x["seg"])
-            dps = DicePerSlice(pred_label, x["seg"])
-            dps_dice = [dp[1] for dp in dps] # Extract Dice scores from each (slice index, Dice) tuple
+            dc = Dice3d(x["seg"], pred_label)
+            jc = Jaccard3d(x["seg"], pred_label)
+            sens = Sensitivity3d(x["seg"], pred_label)
+            spec = Specificity3d(x["seg"], pred_label)
             
             # Append metrics to lists
             dc_list.append(dc)
             jc_list.append(jc)
             sens_list.append(sens)
             spec_list.append(spec)
-            dps_list.append(dps)
-            dps_dice_list.extend(dps_dice)
 
             # Append volume stats to out_dict
             out_dict["volume_stats"].append({
@@ -278,8 +265,6 @@ class UNetExperiment:
                 "jaccard": jc,
                 "sensitivity": sens,
                 "specificity": spec,
-                "dps": dps,
-                "dps_dice": dps_dice,
             })
             
             print(f"{x['filename']} Dice {dc:.4f}. {100*(i+1)/len(self.test_data):.2f}% complete")
@@ -290,7 +275,6 @@ class UNetExperiment:
             "mean_jaccard": np.mean(jc_list),
             "mean_sensitivity": np.mean(sens_list),
             "mean_specificity": np.mean(spec_list),
-            "mean_dps_dice": np.mean(dps_dice_list),
         }
 
         # Print overall metrics
@@ -298,7 +282,6 @@ class UNetExperiment:
         print(f"Mean Jaccard: {out_dict['overall']['mean_jaccard']:.4f}")
         print(f"Mean Sensitivity: {out_dict['overall']['mean_sensitivity']:.4f}")
         print(f"Mean Specificity: {out_dict['overall']['mean_specificity']:.4f}")
-        print(f"Mean Dice-per-slice: {out_dict['overall']['mean_dps_dice']:.4f}")
     
         return out_dict
 
