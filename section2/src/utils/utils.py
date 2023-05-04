@@ -83,10 +83,11 @@ def save_numpy_as_image(arr, path):
 def med_reshape(image, new_shape):
     """
     This function reshapes 3D data to new dimensions, padding with zeros
+    This function reshapes 3D data to new dimensions, padding with zeros
     and leaving the content in the top-left corner
 
     Arguments:
-        image {np.array} -- 3D array of pixel data
+        image {np.np.array} -- 3D array of pixel data
         new_shape {3-tuple} -- expected output shape
 
     Returns:
