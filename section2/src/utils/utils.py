@@ -92,6 +92,7 @@ def med_reshape(image, new_shape):
 
     Returns:
         np.array: 3D array of desired shape, padded with zeroes
+        np.array: 3D array of desired shape, padded with zeroes
     """
     reshaped_image = np.zeros(new_shape)
 
