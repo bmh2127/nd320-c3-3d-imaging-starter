@@ -20,9 +20,7 @@ import subprocess
 import numpy as np
 import pydicom
 
-from PIL import Image
-from PIL import ImageFont
-from PIL import ImageDraw
+from PIL import Image, ImageFont, ImageDraw, ImageFilter, ImageChops
 
 from inference.UNetInferenceAgent import UNetInferenceAgent
 
@@ -36,7 +34,6 @@ def load_dicom_volume_as_numpy_from_list(dcmlist):
     Returns:
         tuple of (3D volume, header of the 1st image)
     """
-
     # In the real world you would do a lot of validation here
     slices = [np.flip(dcm.pixel_array).T for dcm in sorted(dcmlist, key=lambda dcm: dcm.InstanceNumber)]
 
@@ -62,6 +59,9 @@ def get_predicted_volumes(pred):
 
     # TASK: Compute the volume of your hippocampal prediction
     # <YOUR CODE HERE>
+    volume_ant = np.sum(pred == 1)
+    volume_post = np.sum(pred == 2)
+    total_volume = volume_ant + volume_post
 
     return {"anterior": volume_ant, "posterior": volume_post, "total": total_volume}
 
@@ -84,13 +84,19 @@ def create_report(inference, header, orig_vol, pred_vol):
     # Essentially, our report is just a standard RGB image, with some metadata, packed into 
     # DICOM format. 
 
-    pimg = Image.new("RGB", (1000, 1000))
+    pimg = Image.new("RGB", (1200, 800))
     draw = ImageDraw.Draw(pimg)
 
     header_font = ImageFont.truetype("assets/Roboto-Regular.ttf", size=40)
     main_font = ImageFont.truetype("assets/Roboto-Regular.ttf", size=20)
 
     slice_nums = [orig_vol.shape[2]//3, orig_vol.shape[2]//2, orig_vol.shape[2]*3//4] # is there a better choice?
+    # It's a reasonable choice for a quick visual overview of the volume. However, depending on the specific use case and the anatomy of interest, 
+    # there might be better choices.
+    # For example, if the algorithm focuses on a specific region of the hippocampus or if there's a known area of interest, 
+    # it would make more sense to choose slice numbers that cover that region. In addition, if the volume has a significantly 
+    # larger or smaller number of slices, it might be better to have a different number of equally spaced slices for a better 
+    # representation of the whole volume.
 
     # TASK: Create the report here and show information that you think would be relevant to
     # clinicians. A sample code is provided below, but feel free to use your creative 
@@ -98,25 +104,52 @@ def create_report(inference, header, orig_vol, pred_vol):
     # efforts that will be visible to the world. The usefulness of your computations will largely
     # depend on how you present them.
 
-    # SAMPLE CODE BELOW: UNCOMMENT AND CUSTOMIZE
-    # draw.text((10, 0), "HippoVolume.AI", (255, 255, 255), font=header_font)
-    # draw.multiline_text((10, 90),
-    #                     f"Patient ID: {header.PatientID}\n"
-    #                       <WHAT OTHER INFORMATION WOULD BE RELEVANT?>
-    #                     (255, 255, 255), font=main_font)
+    draw.text((10, 0), "HippoVolume.AI", (255, 255, 255), font=header_font)
+    draw.multiline_text((10, 90),
+                        f"""Patient ID: {header.PatientID}
+                        Study Date: {header.StudyDate}
+                        Anterior Volume: {inference['anterior']}
+                        Posterior Volume: {inference['posterior']}
+                        Total Volume: {inference['total']}""",
+                        (255, 255, 255), font=main_font)
 
     # STAND-OUT SUGGESTION:
     # In addition to text data in the snippet above, can you show some images?
     # Think, what would be relevant to show? Can you show an overlay of mask on top of original data?
     # Hint: here's one way to convert a numpy array into a PIL image and draw it inside our pimg object:
-    #
-    # Create a PIL image from array:
-    # Numpy array needs to flipped, transposed and normalized to a matrix of values in the range of [0..255]
-    # nd_img = np.flip((slice/np.max(slice))*0xff).T.astype(np.uint8)
-    # This is how you create a PIL image from numpy array
-    # pil_i = Image.fromarray(nd_img, mode="L").convert("RGBA").resize(<dimensions>)
-    # Paste the PIL image into our main report image object (pimg)
-    # pimg.paste(pil_i, box=(10, 280))
+    # Iterate through the slice_nums
+    for i, slice_num in enumerate(slice_nums):
+        orig_slice = orig_vol[slice_num, :, :]
+        pred_slice = pred_vol[slice_num, :, :]
+
+        nd_img = np.flip((orig_slice / np.max(orig_slice)) * 0xff).T.astype(np.uint8)
+        pil_orig = Image.fromarray(nd_img, mode="L").convert("RGB").resize((400, 400))
+
+        pred_slice = np.where(pred_slice == 1, 128, 0) + np.where(pred_slice == 2, 255, 0)
+        epsilon = 1e-8
+        pred_nd_img = np.flip((pred_slice / (np.max(pred_slice) + epsilon)) * 0xff).T.astype(np.uint8)
+        #pred_nd_img = np.flip((pred_slice / np.max(pred_slice)) * 0xff).T.astype(np.uint8)
+        pil_pred = Image.fromarray(pred_nd_img, mode="L").resize((400, 400))
+        output_pred = np.array(pil_pred.convert('RGB'))
+
+        contour_1 = pil_pred.point(lambda p: p == 128)
+        edges_1 = contour_1.filter(ImageFilter.FIND_EDGES)
+        edges_1 = edges_1.filter(ImageFilter.MaxFilter(3))
+
+        contour_2 = pil_pred.point(lambda p: p == 255)
+        edges_2 = contour_2.filter(ImageFilter.FIND_EDGES)
+        edges_2 = edges_2.filter(ImageFilter.MaxFilter(3))
+
+        pil_edges_1 = Image.fromarray(np.array(edges_1), mode="L").convert("RGBA")
+        pil_edges_2 = Image.fromarray(np.array(edges_2), mode="L").convert("RGBA")
+
+        output_orig = np.array(pil_orig)
+        output_orig[np.nonzero(np.array(edges_1))] = (255, 0, 0)
+        output_orig[np.nonzero(np.array(edges_2))] = (0, 255, 0)
+
+        output = Image.fromarray(output_orig, mode="RGB")
+        spacing = 150  # Add a spacing variable to control the distance between images
+        pimg.paste(output, box=(10 + i * (270 + spacing), 280))
 
     return pimg
 
@@ -229,7 +262,8 @@ def get_series_for_inference(path):
     # certain way. Can you figure out which is that? 
     # Hint: inspect the metadata of HippoCrop series
 
-    # <YOUR CODE HERE>
+    # Filter the series based on the agreed-upon label "HippoCrop Series"
+    series_for_inference = [dcm for dcm in dicoms if dcm.SeriesDescription == 'HippoCrop']
 
     # Check if there are more than one series (using set comprehension).
     if len({f.SeriesInstanceUID for f in series_for_inference}) != 1:
@@ -261,8 +295,9 @@ if __name__ == "__main__":
     # Get the latest directory
     study_dir = sorted(subdirs, key=lambda dir: os.stat(dir).st_mtime, reverse=True)[0]
 
-    print(f"Looking for series to run inference on in directory {study_dir}...")
+    study_dir = [hippo_dir for hippo_dir in subdirs if 'Crop' in hippo_dir][0]
 
+    print(f"Looking for series to run inference on in directory {study_dir}...")
     # TASK: get_series_for_inference is not complete. Go and complete it
     volume, header = load_dicom_volume_as_numpy_from_list(get_series_for_inference(study_dir))
     print(f"Found series of {volume.shape[2]} axial slices")
@@ -271,7 +306,7 @@ if __name__ == "__main__":
     # TASK: Use the UNetInferenceAgent class and model parameter file from the previous section
     inference_agent = UNetInferenceAgent(
         device="cpu",
-        parameter_file_path=r"<PATH TO PARAMETER FILE>")
+        parameter_file_path=r"model.pth")
 
     # Run inference
     # TASK: single_volume_inference_unpadded takes a volume of arbitrary size 
@@ -283,7 +318,7 @@ if __name__ == "__main__":
 
     # Create and save the report
     print("Creating and pushing report...")
-    report_save_path = r"<TEMPORARY PATH TO SAVE YOUR REPORT FILE>"
+    report_save_path = r"report-study1.dcm"
     # TASK: create_report is not complete. Go and complete it. 
     # STAND OUT SUGGESTION: save_report_as_dcm has some suggestions if you want to expand your
     # knowledge of DICOM format
@@ -292,8 +327,8 @@ if __name__ == "__main__":
 
     # Send report to our storage archive
     # TASK: Write a command line string that will issue a DICOM C-STORE request to send our report
-    # to our Orthanc server (that runs on port 4242 of the local machine), using storescu tool
-    os_command("<COMMAND LINE TO SEND REPORT TO ORTHANC>")
+    # to our Orthanc server (that runs on port 8042 of the local machine), using storescu tool
+    os_command("storescu 127.0.0.1 8042 -v -aec HIPPOAI +r +sd /Users/brandonhager/nd320-c3-3d-imaging-starter/")
 
     # This line will remove the study dir if run as root user
     # Sleep to let our StoreSCP server process the report (remember - in our setup

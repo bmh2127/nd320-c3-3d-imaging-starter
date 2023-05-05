@@ -1,0 +1,263 @@
+Training complete
+Validating epoch 9...
+Batch 0. Data shape torch.Size([8, 1, 64, 64]) Loss 0.02225872129201889
+Batch 1. Data shape torch.Size([8, 1, 64, 64]) Loss 0.01215355284512043
+Batch 2. Data shape torch.Size([8, 1, 64, 64]) Loss 0.015419475734233856
+Batch 3. Data shape torch.Size([8, 1, 64, 64]) Loss 0.005504429806023836
+Batch 4. Data shape torch.Size([8, 1, 64, 64]) Loss 0.014604037627577782
+Batch 5. Data shape torch.Size([8, 1, 64, 64]) Loss 0.012024225667119026
+Batch 6. Data shape torch.Size([8, 1, 64, 64]) Loss 0.011684944853186607
+Batch 7. Data shape torch.Size([8, 1, 64, 64]) Loss 0.00996529869735241
+Batch 8. Data shape torch.Size([8, 1, 64, 64]) Loss 0.020520836114883423
+Batch 9. Data shape torch.Size([8, 1, 64, 64]) Loss 0.007977098226547241
+Batch 10. Data shape torch.Size([8, 1, 64, 64]) Loss 0.01394886989146471
+Batch 11. Data shape torch.Size([8, 1, 64, 64]) Loss 0.013404110446572304
+Batch 12. Data shape torch.Size([8, 1, 64, 64]) Loss 0.011399115435779095
+Batch 13. Data shape torch.Size([8, 1, 64, 64]) Loss 0.016733665019273758
+Batch 14. Data shape torch.Size([8, 1, 64, 64]) Loss 0.017919912934303284
+Batch 15. Data shape torch.Size([8, 1, 64, 64]) Loss 0.014997569844126701
+Batch 16. Data shape torch.Size([8, 1, 64, 64]) Loss 0.017346009612083435
+Batch 17. Data shape torch.Size([8, 1, 64, 64]) Loss 0.012183221988379955
+Batch 18. Data shape torch.Size([8, 1, 64, 64]) Loss 0.010457181371748447
+Batch 19. Data shape torch.Size([8, 1, 64, 64]) Loss 0.0178685300052166
+Batch 20. Data shape torch.Size([8, 1, 64, 64]) Loss 0.013001968152821064
+Batch 21. Data shape torch.Size([8, 1, 64, 64]) Loss 0.02128438651561737
+Batch 22. Data shape torch.Size([8, 1, 64, 64]) Loss 0.018423914909362793
+Batch 23. Data shape torch.Size([8, 1, 64, 64]) Loss 0.012416374869644642
+Batch 24. Data shape torch.Size([8, 1, 64, 64]) Loss 0.01494968868792057
+Batch 25. Data shape torch.Size([8, 1, 64, 64]) Loss 0.011442083865404129
+Batch 26. Data shape torch.Size([8, 1, 64, 64]) Loss 0.0197933167219162
+Batch 27. Data shape torch.Size([8, 1, 64, 64]) Loss 0.0188904982060194
+Batch 28. Data shape torch.Size([8, 1, 64, 64]) Loss 0.009232696145772934
+Batch 29. Data shape torch.Size([8, 1, 64, 64]) Loss 0.019352344796061516
+Batch 30. Data shape torch.Size([8, 1, 64, 64]) Loss 0.010529673658311367
+Batch 31. Data shape torch.Size([8, 1, 64, 64]) Loss 0.008801841177046299
+Batch 32. Data shape torch.Size([8, 1, 64, 64]) Loss 0.007320393808186054
+Batch 33. Data shape torch.Size([8, 1, 64, 64]) Loss 0.011497735045850277
+Batch 34. Data shape torch.Size([8, 1, 64, 64]) Loss 0.010350878350436687
+Batch 35. Data shape torch.Size([8, 1, 64, 64]) Loss 0.01520218513906002
+Batch 36. Data shape torch.Size([8, 1, 64, 64]) Loss 0.0051145125180482864
+Batch 37. Data shape torch.Size([8, 1, 64, 64]) Loss 0.004826483316719532
+Batch 38. Data shape torch.Size([8, 1, 64, 64]) Loss 0.012469561770558357
+Batch 39. Data shape torch.Size([8, 1, 64, 64]) Loss 0.005998806096613407
+Batch 40. Data shape torch.Size([8, 1, 64, 64]) Loss 0.011979823932051659
+Batch 41. Data shape torch.Size([8, 1, 64, 64]) Loss 0.010637258179485798
+Batch 42. Data shape torch.Size([8, 1, 64, 64]) Loss 0.021409228444099426
+Batch 43. Data shape torch.Size([8, 1, 64, 64]) Loss 0.022706836462020874
+Batch 44. Data shape torch.Size([8, 1, 64, 64]) Loss 0.019178155809640884
+Batch 45. Data shape torch.Size([8, 1, 64, 64]) Loss 0.030339710414409637
+Batch 46. Data shape torch.Size([8, 1, 64, 64]) Loss 0.011286109685897827
+Batch 47. Data shape torch.Size([8, 1, 64, 64]) Loss 0.01140552293509245
+Batch 48. Data shape torch.Size([8, 1, 64, 64]) Loss 0.019085681065917015
+Batch 49. Data shape torch.Size([8, 1, 64, 64]) Loss 0.02263181284070015
+Batch 50. Data shape torch.Size([8, 1, 64, 64]) Loss 0.0043917750008404255
+Batch 51. Data shape torch.Size([8, 1, 64, 64]) Loss 0.0021698109339922667
+Batch 52. Data shape torch.Size([8, 1, 64, 64]) Loss 0.01421273872256279
+Batch 53. Data shape torch.Size([8, 1, 64, 64]) Loss 0.02546236477792263
+Batch 54. Data shape torch.Size([8, 1, 64, 64]) Loss 0.01319069229066372
+Batch 55. Data shape torch.Size([8, 1, 64, 64]) Loss 0.026209603995084763
+Batch 56. Data shape torch.Size([8, 1, 64, 64]) Loss 0.02143709547817707
+Batch 57. Data shape torch.Size([8, 1, 64, 64]) Loss 0.017588093876838684
+Batch 58. Data shape torch.Size([8, 1, 64, 64]) Loss 0.026442693546414375
+Batch 59. Data shape torch.Size([8, 1, 64, 64]) Loss 0.0045247068628668785
+Batch 60. Data shape torch.Size([8, 1, 64, 64]) Loss 0.008760522119700909
+Batch 61. Data shape torch.Size([8, 1, 64, 64]) Loss 0.005385360214859247
+Batch 62. Data shape torch.Size([8, 1, 64, 64]) Loss 0.013315586373209953
+Batch 63. Data shape torch.Size([8, 1, 64, 64]) Loss 0.012163599953055382
+Batch 64. Data shape torch.Size([8, 1, 64, 64]) Loss 0.008909638971090317
+Batch 65. Data shape torch.Size([8, 1, 64, 64]) Loss 0.005626271478831768
+Batch 66. Data shape torch.Size([8, 1, 64, 64]) Loss 0.017008554190397263
+Batch 67. Data shape torch.Size([8, 1, 64, 64]) Loss 0.008928239345550537
+Batch 68. Data shape torch.Size([8, 1, 64, 64]) Loss 0.014599647372961044
+Batch 69. Data shape torch.Size([8, 1, 64, 64]) Loss 0.009896344505250454
+Batch 70. Data shape torch.Size([8, 1, 64, 64]) Loss 0.01917114108800888
+Batch 71. Data shape torch.Size([8, 1, 64, 64]) Loss 0.01906449720263481
+Batch 72. Data shape torch.Size([8, 1, 64, 64]) Loss 0.008881223388016224
+Batch 73. Data shape torch.Size([8, 1, 64, 64]) Loss 0.00832474883645773
+Batch 74. Data shape torch.Size([8, 1, 64, 64]) Loss 0.02445222996175289
+Batch 75. Data shape torch.Size([8, 1, 64, 64]) Loss 0.006086423993110657
+Batch 76. Data shape torch.Size([8, 1, 64, 64]) Loss 0.011759591288864613
+Batch 77. Data shape torch.Size([8, 1, 64, 64]) Loss 0.005278497003018856
+Batch 78. Data shape torch.Size([8, 1, 64, 64]) Loss 0.029484597966074944
+Batch 79. Data shape torch.Size([8, 1, 64, 64]) Loss 0.01802709698677063
+Batch 80. Data shape torch.Size([8, 1, 64, 64]) Loss 0.010744049213826656
+Batch 81. Data shape torch.Size([8, 1, 64, 64]) Loss 0.0157127995043993
+Batch 82. Data shape torch.Size([8, 1, 64, 64]) Loss 0.005673074163496494
+Batch 83. Data shape torch.Size([8, 1, 64, 64]) Loss 0.01805420219898224
+Batch 84. Data shape torch.Size([8, 1, 64, 64]) Loss 0.011119600385427475
+Batch 85. Data shape torch.Size([8, 1, 64, 64]) Loss 0.007605405990034342
+Batch 86. Data shape torch.Size([8, 1, 64, 64]) Loss 0.012017207220196724
+Batch 87. Data shape torch.Size([8, 1, 64, 64]) Loss 0.011459022760391235
+Batch 88. Data shape torch.Size([8, 1, 64, 64]) Loss 0.010744002647697926
+Batch 89. Data shape torch.Size([8, 1, 64, 64]) Loss 0.010446433909237385
+Batch 90. Data shape torch.Size([8, 1, 64, 64]) Loss 0.012989613227546215
+Batch 91. Data shape torch.Size([8, 1, 64, 64]) Loss 0.010805321857333183
+Batch 92. Data shape torch.Size([8, 1, 64, 64]) Loss 0.008322186768054962
+Batch 93. Data shape torch.Size([8, 1, 64, 64]) Loss 0.005137178581207991
+Batch 94. Data shape torch.Size([8, 1, 64, 64]) Loss 0.01911330595612526
+Batch 95. Data shape torch.Size([8, 1, 64, 64]) Loss 0.014460258185863495
+Batch 96. Data shape torch.Size([8, 1, 64, 64]) Loss 0.010687447153031826
+Batch 97. Data shape torch.Size([8, 1, 64, 64]) Loss 0.02565692737698555
+Batch 98. Data shape torch.Size([8, 1, 64, 64]) Loss 0.014699350111186504
+Batch 99. Data shape torch.Size([8, 1, 64, 64]) Loss 0.01162419468164444
+Batch 100. Data shape torch.Size([8, 1, 64, 64]) Loss 0.03261556848883629
+Batch 101. Data shape torch.Size([8, 1, 64, 64]) Loss 0.02762843668460846
+Batch 102. Data shape torch.Size([8, 1, 64, 64]) Loss 0.00502806855365634
+Batch 103. Data shape torch.Size([8, 1, 64, 64]) Loss 0.011718777008354664
+Batch 104. Data shape torch.Size([8, 1, 64, 64]) Loss 0.010541104711592197
+Batch 105. Data shape torch.Size([8, 1, 64, 64]) Loss 0.007958668284118176
+Batch 106. Data shape torch.Size([8, 1, 64, 64]) Loss 0.014886178076267242
+Batch 107. Data shape torch.Size([8, 1, 64, 64]) Loss 0.02240280993282795
+Batch 108. Data shape torch.Size([8, 1, 64, 64]) Loss 0.0066015878692269325
+Batch 109. Data shape torch.Size([8, 1, 64, 64]) Loss 0.015431338921189308
+Batch 110. Data shape torch.Size([8, 1, 64, 64]) Loss 0.012976220808923244
+Batch 111. Data shape torch.Size([8, 1, 64, 64]) Loss 0.006092760246247053
+Batch 112. Data shape torch.Size([8, 1, 64, 64]) Loss 0.012343252077698708
+Batch 113. Data shape torch.Size([8, 1, 64, 64]) Loss 0.02133437991142273
+Batch 114. Data shape torch.Size([8, 1, 64, 64]) Loss 0.01818396896123886
+Batch 115. Data shape torch.Size([8, 1, 64, 64]) Loss 0.007804051041603088
+Batch 116. Data shape torch.Size([8, 1, 64, 64]) Loss 0.010640435852110386
+Batch 117. Data shape torch.Size([8, 1, 64, 64]) Loss 0.016117962077260017
+Batch 118. Data shape torch.Size([8, 1, 64, 64]) Loss 0.006702695973217487
+Batch 119. Data shape torch.Size([8, 1, 64, 64]) Loss 0.0127115398645401
+Batch 120. Data shape torch.Size([8, 1, 64, 64]) Loss 0.02712082490324974
+Batch 121. Data shape torch.Size([8, 1, 64, 64]) Loss 0.015744412317872047
+Batch 122. Data shape torch.Size([8, 1, 64, 64]) Loss 0.014711436815559864
+Batch 123. Data shape torch.Size([8, 1, 64, 64]) Loss 0.01220944058150053
+Batch 124. Data shape torch.Size([8, 1, 64, 64]) Loss 0.011818954721093178
+Batch 125. Data shape torch.Size([8, 1, 64, 64]) Loss 0.014991547912359238
+Batch 126. Data shape torch.Size([8, 1, 64, 64]) Loss 0.016340967267751694
+Batch 127. Data shape torch.Size([8, 1, 64, 64]) Loss 0.005779624450951815
+Batch 128. Data shape torch.Size([8, 1, 64, 64]) Loss 0.015675021335482597
+Batch 129. Data shape torch.Size([8, 1, 64, 64]) Loss 0.012248069047927856
+Batch 130. Data shape torch.Size([8, 1, 64, 64]) Loss 0.009017580188810825
+Batch 131. Data shape torch.Size([8, 1, 64, 64]) Loss 0.019353661686182022
+Batch 132. Data shape torch.Size([8, 1, 64, 64]) Loss 0.009499280713498592
+Batch 133. Data shape torch.Size([8, 1, 64, 64]) Loss 0.015035746619105339
+Batch 134. Data shape torch.Size([8, 1, 64, 64]) Loss 0.017122667282819748
+Batch 135. Data shape torch.Size([8, 1, 64, 64]) Loss 0.01127698551863432
+Batch 136. Data shape torch.Size([8, 1, 64, 64]) Loss 0.01602041721343994
+Batch 137. Data shape torch.Size([8, 1, 64, 64]) Loss 0.014867574907839298
+Batch 138. Data shape torch.Size([8, 1, 64, 64]) Loss 0.009993118233978748
+Batch 139. Data shape torch.Size([8, 1, 64, 64]) Loss 0.01859920099377632
+Batch 140. Data shape torch.Size([8, 1, 64, 64]) Loss 0.014562238939106464
+Batch 141. Data shape torch.Size([8, 1, 64, 64]) Loss 0.015091481618583202
+Batch 142. Data shape torch.Size([8, 1, 64, 64]) Loss 0.007696863729506731
+Batch 143. Data shape torch.Size([8, 1, 64, 64]) Loss 0.01022778358310461
+Batch 144. Data shape torch.Size([8, 1, 64, 64]) Loss 0.006084366701543331
+Batch 145. Data shape torch.Size([8, 1, 64, 64]) Loss 0.00843719206750393
+Batch 146. Data shape torch.Size([8, 1, 64, 64]) Loss 0.007634167093783617
+Batch 147. Data shape torch.Size([8, 1, 64, 64]) Loss 0.012811289168894291
+Batch 148. Data shape torch.Size([8, 1, 64, 64]) Loss 0.015316106379032135
+Batch 149. Data shape torch.Size([8, 1, 64, 64]) Loss 0.015085708349943161
+Batch 150. Data shape torch.Size([8, 1, 64, 64]) Loss 0.01449601911008358
+Batch 151. Data shape torch.Size([8, 1, 64, 64]) Loss 0.011157526634633541
+Batch 152. Data shape torch.Size([8, 1, 64, 64]) Loss 0.017694560810923576
+Batch 153. Data shape torch.Size([8, 1, 64, 64]) Loss 0.01861434429883957
+Batch 154. Data shape torch.Size([8, 1, 64, 64]) Loss 0.007711457554250956
+Batch 155. Data shape torch.Size([8, 1, 64, 64]) Loss 0.013297068886458874
+Batch 156. Data shape torch.Size([8, 1, 64, 64]) Loss 0.014220667071640491
+Batch 157. Data shape torch.Size([8, 1, 64, 64]) Loss 0.012979387305676937
+Batch 158. Data shape torch.Size([8, 1, 64, 64]) Loss 0.014242622070014477
+Batch 159. Data shape torch.Size([8, 1, 64, 64]) Loss 0.02148032933473587
+Batch 160. Data shape torch.Size([8, 1, 64, 64]) Loss 0.01765993796288967
+Batch 161. Data shape torch.Size([8, 1, 64, 64]) Loss 0.016099950298666954
+Batch 162. Data shape torch.Size([8, 1, 64, 64]) Loss 0.008390715345740318
+Batch 163. Data shape torch.Size([8, 1, 64, 64]) Loss 0.015501285903155804
+Batch 164. Data shape torch.Size([8, 1, 64, 64]) Loss 0.012356216087937355
+Batch 165. Data shape torch.Size([8, 1, 64, 64]) Loss 0.025739211589097977
+Batch 166. Data shape torch.Size([8, 1, 64, 64]) Loss 0.01364081259816885
+Batch 167. Data shape torch.Size([8, 1, 64, 64]) Loss 0.020478634163737297
+Batch 168. Data shape torch.Size([8, 1, 64, 64]) Loss 0.009395290166139603
+Batch 169. Data shape torch.Size([8, 1, 64, 64]) Loss 0.022148655727505684
+Batch 170. Data shape torch.Size([8, 1, 64, 64]) Loss 0.010962146334350109
+Batch 171. Data shape torch.Size([8, 1, 64, 64]) Loss 0.024223705753684044
+Batch 172. Data shape torch.Size([8, 1, 64, 64]) Loss 0.015885306522250175
+Batch 173. Data shape torch.Size([8, 1, 64, 64]) Loss 0.030912164598703384
+Batch 174. Data shape torch.Size([8, 1, 64, 64]) Loss 0.015438051894307137
+Batch 175. Data shape torch.Size([8, 1, 64, 64]) Loss 0.012418986298143864
+Batch 176. Data shape torch.Size([8, 1, 64, 64]) Loss 0.010741062462329865
+Batch 177. Data shape torch.Size([8, 1, 64, 64]) Loss 0.019908230751752853
+Batch 178. Data shape torch.Size([8, 1, 64, 64]) Loss 0.017795642837882042
+Batch 179. Data shape torch.Size([8, 1, 64, 64]) Loss 0.007539525628089905
+Batch 180. Data shape torch.Size([8, 1, 64, 64]) Loss 0.0077694980427622795
+Batch 181. Data shape torch.Size([8, 1, 64, 64]) Loss 0.014872920699417591
+Batch 182. Data shape torch.Size([8, 1, 64, 64]) Loss 0.009498735889792442
+Batch 183. Data shape torch.Size([8, 1, 64, 64]) Loss 0.011646158993244171
+Batch 184. Data shape torch.Size([8, 1, 64, 64]) Loss 0.02010383829474449
+Batch 185. Data shape torch.Size([8, 1, 64, 64]) Loss 0.013199792243540287
+Batch 186. Data shape torch.Size([8, 1, 64, 64]) Loss 0.01818276010453701
+Batch 187. Data shape torch.Size([8, 1, 64, 64]) Loss 0.01111423410475254
+Batch 188. Data shape torch.Size([8, 1, 64, 64]) Loss 0.014845573343336582
+Batch 189. Data shape torch.Size([8, 1, 64, 64]) Loss 0.00966599676758051
+Batch 190. Data shape torch.Size([8, 1, 64, 64]) Loss 0.007874159142374992
+Batch 191. Data shape torch.Size([8, 1, 64, 64]) Loss 0.025542788207530975
+Batch 192. Data shape torch.Size([8, 1, 64, 64]) Loss 0.02024720422923565
+Batch 193. Data shape torch.Size([8, 1, 64, 64]) Loss 0.031388990581035614
+Batch 194. Data shape torch.Size([8, 1, 64, 64]) Loss 0.013331706635653973
+Batch 195. Data shape torch.Size([8, 1, 64, 64]) Loss 0.013491232879459858
+Batch 196. Data shape torch.Size([8, 1, 64, 64]) Loss 0.02112887054681778
+Batch 197. Data shape torch.Size([8, 1, 64, 64]) Loss 0.008326067589223385
+Batch 198. Data shape torch.Size([8, 1, 64, 64]) Loss 0.009615128859877586
+Batch 199. Data shape torch.Size([8, 1, 64, 64]) Loss 0.021338751539587975
+Batch 200. Data shape torch.Size([8, 1, 64, 64]) Loss 0.007712744642049074
+Batch 201. Data shape torch.Size([8, 1, 64, 64]) Loss 0.015225332230329514
+Batch 202. Data shape torch.Size([8, 1, 64, 64]) Loss 0.006461720447987318
+Batch 203. Data shape torch.Size([8, 1, 64, 64]) Loss 0.013239845633506775
+Batch 204. Data shape torch.Size([8, 1, 64, 64]) Loss 0.010631854645907879
+Batch 205. Data shape torch.Size([8, 1, 64, 64]) Loss 0.015863534063100815
+Batch 206. Data shape torch.Size([8, 1, 64, 64]) Loss 0.007308547385036945
+Batch 207. Data shape torch.Size([8, 1, 64, 64]) Loss 0.01085059717297554
+Batch 208. Data shape torch.Size([8, 1, 64, 64]) Loss 0.008294789120554924
+Batch 209. Data shape torch.Size([8, 1, 64, 64]) Loss 0.010301762260496616
+Batch 210. Data shape torch.Size([8, 1, 64, 64]) Loss 0.01479350682348013
+Batch 211. Data shape torch.Size([8, 1, 64, 64]) Loss 0.020283307880163193
+Batch 212. Data shape torch.Size([8, 1, 64, 64]) Loss 0.016474846750497818
+Batch 213. Data shape torch.Size([8, 1, 64, 64]) Loss 0.013532724231481552
+Batch 214. Data shape torch.Size([8, 1, 64, 64]) Loss 0.009042621590197086
+Batch 215. Data shape torch.Size([8, 1, 64, 64]) Loss 0.019922897219657898
+Batch 216. Data shape torch.Size([8, 1, 64, 64]) Loss 0.00819252710789442
+Batch 217. Data shape torch.Size([8, 1, 64, 64]) Loss 0.012644987553358078
+Batch 218. Data shape torch.Size([8, 1, 64, 64]) Loss 0.00997039396315813
+Batch 219. Data shape torch.Size([8, 1, 64, 64]) Loss 0.01471953745931387
+Batch 220. Data shape torch.Size([8, 1, 64, 64]) Loss 0.007881669327616692
+Batch 221. Data shape torch.Size([8, 1, 64, 64]) Loss 0.008176729083061218
+Batch 222. Data shape torch.Size([8, 1, 64, 64]) Loss 0.012672530487179756
+Batch 223. Data shape torch.Size([8, 1, 64, 64]) Loss 0.011040939949452877
+Batch 224. Data shape torch.Size([8, 1, 64, 64]) Loss 0.0074060168117284775
+Batch 225. Data shape torch.Size([8, 1, 64, 64]) Loss 0.012202518060803413
+Batch 226. Data shape torch.Size([6, 1, 64, 64]) Loss 0.024784686043858528
+Validation complete
+Run complete. Total time: 01:02:27
+Testing...
+hippocampus_161.nii.gz Dice 0.9349. 3.85% complete
+hippocampus_065.nii.gz Dice 0.9441. 7.69% complete
+hippocampus_282.nii.gz Dice 0.8541. 11.54% complete
+hippocampus_157.nii.gz Dice 0.9005. 15.38% complete
+hippocampus_374.nii.gz Dice 0.9263. 19.23% complete
+hippocampus_001.nii.gz Dice 0.9038. 23.08% complete
+hippocampus_044.nii.gz Dice 0.9206. 26.92% complete
+hippocampus_006.nii.gz Dice 0.9136. 30.77% complete
+hippocampus_316.nii.gz Dice 0.8708. 34.62% complete
+hippocampus_125.nii.gz Dice 0.8873. 38.46% complete
+hippocampus_360.nii.gz Dice 0.8924. 42.31% complete
+hippocampus_068.nii.gz Dice 0.9293. 46.15% complete
+hippocampus_138.nii.gz Dice 0.9197. 50.00% complete
+hippocampus_026.nii.gz Dice 0.9103. 53.85% complete
+hippocampus_141.nii.gz Dice 0.9177. 57.69% complete
+hippocampus_328.nii.gz Dice 0.9364. 61.54% complete
+hippocampus_249.nii.gz Dice 0.9315. 65.38% complete
+hippocampus_180.nii.gz Dice 0.9152. 69.23% complete
+hippocampus_083.nii.gz Dice 0.9174. 73.08% complete
+hippocampus_222.nii.gz Dice 0.8393. 76.92% complete
+hippocampus_368.nii.gz Dice 0.8929. 80.77% complete
+hippocampus_204.nii.gz Dice 0.9207. 84.62% complete
+hippocampus_248.nii.gz Dice 0.8898. 88.46% complete
+hippocampus_098.nii.gz Dice 0.9242. 92.31% complete
+hippocampus_298.nii.gz Dice 0.8504. 96.15% complete
+hippocampus_358.nii.gz Dice 0.8823. 100.00% complete
+
+Testing complete. Mean Dice: 0.9048
+Mean Jaccard: 0.8273
+Mean Sensitivity: 0.9163
+Mean Specificity: 0.9977
