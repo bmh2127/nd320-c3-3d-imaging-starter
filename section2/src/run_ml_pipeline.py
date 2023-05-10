@@ -27,7 +27,7 @@ if __name__ == "__main__":
     # TASK: Fill in parameters of the Config class and specify directory where the data is stored and 
     # directory where results will go
     c = Config()
-    c.root_dir = r"/Users/brandonhager/nd320-c3-3d-imaging-starter/data/TrainingSet/"
+    c.root_dir = r"/Users/brandonhager/nd320-c3-3d-imaging-starter/section1/out/"
     c.test_results_dir = r"/Users/brandonhager/nd320-c3-3d-imaging-starter/results/"
     # Load data
     print("Loading data...")
